@@ -8,6 +8,8 @@ in pkgs.prim-compat.env.overrideAttrs (self: {
   buildInputs = self.buildInputs ++ [
     pkgs.cabal-install
     pkgs.clang
+    pkgs.fourmolu
+    pkgs.haskell-language-server
     pkgs.llvm
   ];
 })
