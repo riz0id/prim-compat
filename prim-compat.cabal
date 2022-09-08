@@ -42,15 +42,14 @@ common common
     -Widentities
     -Wmissing-export-lists
 
+    -- `-j2` is set (as opposed to `-j`) since this package provides only a few 
+    -- modules.
+    -j2
+
     -- `-O0` is explicitly set since none of the functions exported by this 
     -- library would benefit from higher optimization levels. This helps reduce 
     -- compile times. 
     -O0
-
-    -- `-fregs-iterative` enables the iterative graph coloring register 
-    -- allocator. This is hardly affects compile times and can produce code with
-    -- fewer heap allocations.
-    -fregs-iterative
 
     -- `-fmax-simplifier-iterations` is set to keep compile times in check. 
     -- The functions in this library are simple and do not need very many 
