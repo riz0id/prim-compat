@@ -17,13 +17,13 @@
 module Data.Int.Prim.Compat
   ( -- * Int# #int#
     Int#,
-    fromInt,
-    toInt,
+    fromInt#,
+    toInt#,
 
     -- * Int8# #int8#
     Int8#,
-    fromInt8,
-    toInt8,
+    fromInt8#,
+    toInt8#,
 
     -- ** Conversion #int8-conversion#
     intToInt8#,
@@ -31,8 +31,8 @@ module Data.Int.Prim.Compat
 
     -- * Int16# #int16#
     Int16#,
-    fromInt16,
-    toInt16,
+    fromInt16#,
+    toInt16#,
 
     -- ** Conversion #int16-conversion#
     intToInt16#,
@@ -40,8 +40,8 @@ module Data.Int.Prim.Compat
 
     -- * Int32# #int32#
     Int32#,
-    fromInt32,
-    toInt32,
+    fromInt32#,
+    toInt32#,
 
     -- ** Conversion #int32-conversion#
     intToInt32#,
@@ -75,16 +75,16 @@ import GHC.Exts (eqInt32#, geInt32#, gtInt32#, leInt32#, ltInt32#, neInt32#)
 {-# RULES 
 
 "Int# -> Int -> Int#"
-  forall x . toInt (fromInt x) = x
+  forall x . toInt# (fromInt# x) = x
 
 "Int8# -> Int8 -> Int8#"
-  forall x . toInt8 (fromInt8 x) = x
+  forall x . toInt8# (fromInt8# x) = x
 
 "Int16# -> Int16 -> Int16#"
-  forall x . toInt16 (fromInt16 x) = x
+  forall x . toInt16# (fromInt16# x) = x
 
 "Int32# -> Int32 -> Int32#"
-  forall x . toInt32 (fromInt32 x) = x
+  forall x . toInt32# (fromInt32# x) = x
 
 #-}
 
@@ -93,40 +93,40 @@ import GHC.Exts (eqInt32#, geInt32#, gtInt32#, leInt32#, ltInt32#, neInt32#)
 -- | Convert a unboxed 'Int#' value to a boxed 'Int' value.
 --
 -- @since 1.0.0
-fromInt :: Int# -> Int
-fromInt = I#
-{-# INLINE [0] fromInt #-}
+fromInt# :: Int# -> Int
+fromInt# = I#
+{-# INLINE [0] fromInt# #-}
 
 -- | Convert a boxed 'Int' value to an unboxed 'Int#' value.
 --
 -- @since 1.0.0
-toInt :: Int -> Int#
-toInt (I# x) = x
-{-# INLINE [0] toInt #-}
+toInt# :: Int -> Int#
+toInt# (I# x) = x
+{-# INLINE [0] toInt# #-}
 
 -- Int8# -----------------------------------------------------------------------
 
 -- | Convert a unboxed 'Int8#' value to a boxed 'Int8' value.
 --
 -- @since 1.0.0
-fromInt8 :: Int8# -> Int8
+fromInt8# :: Int8# -> Int8
 #if (MIN_VERSION_ghc_prim(0,8,0))
-fromInt8 = I8#
+fromInt8# = I8#
 #else 
-fromInt8 x = I8# (GHC.extendInt8# x)
+fromInt8# x = I8# (GHC.extendInt8# x)
 #endif
-{-# INLINE [0] fromInt8 #-}
+{-# INLINE [0] fromInt8# #-}
 
 -- | Convert a boxed 'Int8' value to an unboxed 'Int8#' value.
 --
 -- @since 1.0.0
-toInt8 :: Int8 -> Int8#
+toInt8# :: Int8 -> Int8#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-toInt8 (I8# x) = x
+toInt8# (I8# x) = x
 #else 
-toInt8 (I8# x) = GHC.narrowInt8# x
+toInt8# (I8# x) = GHC.narrowInt8# x
 #endif
-{-# INLINE [0] toInt8 #-}
+{-# INLINE [0] toInt8# #-}
 
 -- Int8# - Conversion ----------------------------------------------------------
 
@@ -155,24 +155,24 @@ int8ToInt# = GHC.extendInt8#
 -- | Convert a unboxed 'Int16#' value to a boxed 'Int16' value.
 --
 -- @since 1.0.0
-fromInt16 :: Int16# -> Int16
+fromInt16# :: Int16# -> Int16
 #if (MIN_VERSION_ghc_prim(0,8,0))
-fromInt16 = I16#
+fromInt16# = I16#
 #else 
-fromInt16 x = I16# (GHC.extendInt16# x)
+fromInt16# x = I16# (GHC.extendInt16# x)
 #endif
-{-# INLINE [0] fromInt16 #-}
+{-# INLINE [0] fromInt16# #-}
 
 -- | Convert a boxed 'Int16' value to an unboxed 'Int16#' value.
 --
 -- @since 1.0.0
-toInt16 :: Int16 -> Int16#
+toInt16# :: Int16 -> Int16#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-toInt16 (I16# x) = x
+toInt16# (I16# x) = x
 #else 
-toInt16 (I16# x) = GHC.narrowInt16# x
+toInt16# (I16# x) = GHC.narrowInt16# x
 #endif
-{-# INLINE [0] toInt16 #-}
+{-# INLINE [0] toInt16# #-}
 
 -- Int16# - Conversion ---------------------------------------------------------
 
@@ -201,24 +201,24 @@ int16ToInt# = GHC.extendInt16#
 -- | Convert a unboxed 'Int32#' value to a boxed 'Int32' value.
 --
 -- @since 1.0.0
-fromInt32 :: Int32# -> Int32
+fromInt32# :: Int32# -> Int32
 #if (MIN_VERSION_ghc_prim(0,8,0))
-fromInt32 = I32#
+fromInt32# = I32#
 #else 
-fromInt32 x = I32# (int32ToInt# x)
+fromInt32# x = I32# (int32ToInt# x)
 #endif
-{-# INLINE [0] fromInt32 #-}
+{-# INLINE [0] fromInt32# #-}
 
 -- | Convert a boxed 'Int32' value to an unboxed 'Int32#' value.
 --
 -- @since 1.0.0
-toInt32 :: Int32 -> Int32#
+toInt32# :: Int32 -> Int32#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-toInt32 (I32# x) = x
+toInt32# (I32# x) = x
 #else 
-toInt32 (I32# x) = intToInt32# x
+toInt32# (I32# x) = intToInt32# x
 #endif
-{-# INLINE [0] toInt32 #-}
+{-# INLINE [0] toInt32# #-}
 
 -- Int32# - Conversion ---------------------------------------------------------
 

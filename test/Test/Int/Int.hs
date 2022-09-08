@@ -6,7 +6,7 @@ import qualified Hedgehog.Range as Range
 
 import Test.Core (TestTree, testGroup, testProp)
 
-import Data.Int.Prim.Compat (fromInt, toInt)
+import Data.Int.Prim.Compat (fromInt#, toInt#)
 
 --------------------------------------------------------------------------------
 
@@ -16,5 +16,5 @@ testTree =
     "Int"
     [ testProp "Unbox" $ property do
         x <- forAll (Gen.int Range.constantBounded)
-        x === fromInt (toInt x)
+        x === fromInt# (toInt# x)
     ]

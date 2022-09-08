@@ -17,13 +17,13 @@
 module Data.Word.Prim.Compat
   ( -- * Word# #word#
     Word#,
-    fromWord,
-    toWord,
+    fromWord#,
+    toWord#,
 
     -- * Word8# #word8#
     Word8#,
-    fromWord8,
-    toWord8,
+    fromWord8#,
+    toWord8#,
 
     -- ** Conversion #word8-conversion#
     wordToWord8#,
@@ -31,15 +31,19 @@ module Data.Word.Prim.Compat
 
     -- * Word16# #word16#
     Word16#,
-    fromWord16,
-    toWord16,
+    fromWord16#,
+    toWord16#,
 
     -- ** Conversion #word16-conversion#
     wordToWord16#,
     word16ToWord#,
 
+    -- ** Unboxing
+
     -- * Word32# #word32#
     Word32#,
+    fromWord32#,
+    toWord32#,
 
     -- ** Conversion #word32-conversion#
     wordToWord32#,
@@ -51,8 +55,6 @@ module Data.Word.Prim.Compat
     timesWord32#,
 
     -- ** Comparison #word32-comparison#
-    fromWord32,
-    toWord32,
     gtWord32#,
     geWord32#,
     eqWord32#,
@@ -79,16 +81,16 @@ import GHC.Exts (Int#)
 {-# RULES 
 
 "Word# -> Word -> Word#"
-  forall x . toWord (fromWord x) = x
+  forall x . toWord# (fromWord# x) = x
 
 "Word8# -> Word8 -> Word8#"
-  forall x . toWord8 (fromWord8 x) = x
+  forall x . toWord8# (fromWord8# x) = x
 
 "Word16# -> Word16 -> Word16#"
-  forall x . toWord16 (fromWord16 x) = x
+  forall x . toWord16# (fromWord16# x) = x
 
 "Word32# -> Word32 -> Word32#"
-  forall x . toWord32 (fromWord32 x) = x
+  forall x . toWord32# (fromWord32# x) = x
 
 #-}
 
@@ -97,40 +99,40 @@ import GHC.Exts (Int#)
 -- | Convert a boxed 'Word' value to an unboxed 'Word#' value.
 --
 -- @since 1.0.0
-toWord :: Word -> Word#
-toWord (W# x) = x
-{-# INLINE [0] toWord #-}
+toWord# :: Word -> Word#
+toWord# (W# x) = x
+{-# INLINE [0] toWord# #-}
 
 -- | Convert a unboxed 'Word#' value to a boxed 'Word' value.
 --
 -- @since 1.0.0
-fromWord :: Word# -> Word
-fromWord = W#
-{-# INLINE [0] fromWord #-}
+fromWord# :: Word# -> Word
+fromWord# = W#
+{-# INLINE [0] fromWord# #-}
 
 -- Word8# ----------------------------------------------------------------------
 
 -- | Convert a unboxed 'Word8#' value to a boxed 'Word8' value.
 --
 -- @since 1.0.0
-fromWord8 :: Word8# -> Word8
+fromWord8# :: Word8# -> Word8
 #if (MIN_VERSION_ghc_prim(0,8,0))
-fromWord8 = W8#
+fromWord8# = W8#
 #else 
-fromWord8 x = W8# (GHC.extendWord8# x)
+fromWord8# x = W8# (GHC.extendWord8# x)
 #endif
-{-# INLINE [0] toWord8 #-}
+{-# INLINE [0] toWord8# #-}
 
 -- | Convert a boxed 'Word8' value to an unboxed 'Word8#' value.
 --
 -- @since 1.0.0
-toWord8 :: Word8 -> Word8#
+toWord8# :: Word8 -> Word8#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-toWord8 (W8# x) = x
+toWord8# (W8# x) = x
 #else 
-toWord8 (W8# x) = GHC.narrowWord8# x
+toWord8# (W8# x) = GHC.narrowWord8# x
 #endif
-{-# INLINE [0] fromWord8 #-}
+{-# INLINE [0] fromWord8# #-}
 
 -- Word8# - Conversion ---------------------------------------------------------
 
@@ -159,24 +161,24 @@ word8ToWord# = GHC.extendWord8#
 -- | Convert a unboxed 'Word16#' value to a boxed 'Word16' value.
 --
 -- @since 1.0.0
-fromWord16 :: Word16# -> Word16
+fromWord16# :: Word16# -> Word16
 #if (MIN_VERSION_ghc_prim(0,8,0))
-fromWord16 = W16#
+fromWord16# = W16#
 #else 
-fromWord16 x = W16# (GHC.extendWord16# x)
+fromWord16# x = W16# (GHC.extendWord16# x)
 #endif
-{-# INLINE [0] fromWord16 #-}
+{-# INLINE [0] fromWord16# #-}
 
 -- | Convert a boxed 'Word16' value to an unboxed 'Word16#' value.
 --
 -- @since 1.0.0
-toWord16 :: Word16 -> Word16#
+toWord16# :: Word16 -> Word16#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-toWord16 (W16# x) = x
+toWord16# (W16# x) = x
 #else 
-toWord16 (W16# x) = GHC.narrowWord16# x
+toWord16# (W16# x) = GHC.narrowWord16# x
 #endif
-{-# INLINE [0] toWord16 #-}
+{-# INLINE [0] toWord16# #-}
 
 -- Word16# - Conversion --------------------------------------------------------
 
@@ -205,24 +207,24 @@ word16ToWord# = GHC.extendWord16#
 -- | Convert a unboxed 'Word32#' value to a boxed 'Word32' value.
 --
 -- @since 1.0.0
-fromWord32 :: Word32# -> Word32
+fromWord32# :: Word32# -> Word32
 #if (MIN_VERSION_ghc_prim(0,8,0))
-fromWord32 = W32#
+fromWord32# = W32#
 #else 
-fromWord32 x = W32# (word32ToWord# x)
+fromWord32# x = W32# (word32ToWord# x)
 #endif
-{-# INLINE [0] fromWord32 #-}
+{-# INLINE [0] fromWord32# #-}
 
 -- | Convert a boxed 'Word32' value to an unboxed 'Word32#' value.
 --
 -- @since 1.0.0
-toWord32 :: Word32 -> Word32#
+toWord32# :: Word32 -> Word32#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-toWord32 (W32# x) = x
+toWord32# (W32# x) = x
 #else 
-toWord32 (W32# x) = wordToWord32# x 
+toWord32# (W32# x) = wordToWord32# x 
 #endif
-{-# INLINE [0] toWord32 #-}
+{-# INLINE [0] toWord32# #-}
 
 -- Word32# - Conversion --------------------------------------------------------
 

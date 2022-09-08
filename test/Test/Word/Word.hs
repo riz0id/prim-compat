@@ -6,7 +6,7 @@ import qualified Hedgehog.Range as Range
 
 import Test.Core (TestTree, testGroup, testProp)
 
-import Data.Word.Prim.Compat (fromWord, toWord)
+import Data.Word.Prim.Compat (fromWord#, toWord#)
 
 import GHC.Exts (plusWord#)
 
@@ -17,7 +17,7 @@ testTree =
   testGroup
     "Word"
     [ testProp "Unbox" $ property do
-        x@(toWord -> x#) <- forAll (Gen.word Range.constantBounded)
-        y@(toWord -> y#) <- forAll (Gen.word Range.constantBounded)
-        x + y === fromWord (plusWord# x# y#)
+        x@(toWord# -> x#) <- forAll (Gen.word Range.constantBounded)
+        y@(toWord# -> y#) <- forAll (Gen.word Range.constantBounded)
+        x + y === fromWord# (plusWord# x# y#)
     ]
