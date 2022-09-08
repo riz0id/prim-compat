@@ -12,6 +12,7 @@ in {
   inherit (pkgs) 
     cabal-install 
     clang 
-    haskell-language-server 
     llvm;
+    
+  haskell-language-server = pkgs."haskell-language-server-9.2.2";
 }
