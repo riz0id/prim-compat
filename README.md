@@ -2,7 +2,7 @@
 
 # prim-compat: lightweight ghc-prim compatibility wrapper. 
 
-[![GHC 9.2.2](https://github.com/riz0id/prim-compat/actions/workflows/ghc922.yml/badge.svg)](https://github.com/riz0id/prim-compat/actions/workflows/ghc922.yml) 
+[![GHC 9.2.4](https://github.com/riz0id/prim-compat/actions/workflows/ghc924.yml/badge.svg)](https://github.com/riz0id/prim-compat/actions/workflows/ghc924.yml) 
 [![GHC 9.0.2](https://github.com/riz0id/prim-compat/actions/workflows/ghc902.yml/badge.svg)](https://github.com/riz0id/prim-compat/actions/workflows/ghc902.yml)
 [![GHC 8.10.7](https://github.com/riz0id/prim-compat/actions/workflows/ghc8107.yml/badge.svg)](https://github.com/riz0id/prim-compat/actions/workflows/ghc8107.yml)
 
