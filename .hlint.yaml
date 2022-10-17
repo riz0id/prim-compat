@@ -1,0 +1,15 @@
+- arguments: [
+  --color, 
+  -XCPP,
+  -XMagicHash,
+]
+
+- extensions:
+  - default: true
+  - name: [
+      ImportQualifiedPost, 
+      MagicHash,
+      ViewPatterns,
+    ]
+
+- ignore: {name: "Use fewer imports"}
