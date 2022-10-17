@@ -59,6 +59,8 @@ common common
     -- simplifier passes.
     -fmax-simplifier-iterations=2
 
+    -- `-fregs-iterative` enable the iterative graph coloring register 
+    -- allocator.
     -fregs-iterative
 
   if flag(llvm) 
