@@ -1,8 +1,6 @@
 { ghc ? "ghc922" }:
 
-let 
-  nixpkgs = import ./nixpkgs.nix { };
-in import nixpkgs {
+import <nixpkgs-unstable> {
   config.packageOverrides = pkgs: {
     haskell = pkgs.haskell // {
       packages = pkgs.haskell.packages // {
