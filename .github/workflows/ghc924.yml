@@ -1,4 +1,4 @@
-name: GHC 9.2.2
+name: GHC 9.2.4
 on:
   push:
     branches:
