@@ -1,15 +1,13 @@
-{ ghc ? "ghc922" }:
+{ ghc }:
 
-let 
-  pkgs = import ./nixpkgs.nix { };
-in import pkgs {
-  config.packageOverrides = pkgs: {
-    haskell = pkgs.haskell // {
-      packages = pkgs.haskell.packages // {
-        "${ghc}" = pkgs.haskell.packages."${ghc}".extend (self: _: {
-          prim-compat = self.callCabal2nix "prim-compat" ../. { };
-        });
-      };
-    };
-  }; 
+import (import ./nixpkgs.nix) {
+  config.packageOverrides = pkgs: 
+    pkgs.lib.composeManyExtensions [  
+      (import exts/prim-compat.nix {
+        inherit ghc;
+      })
+      (import exts/text.nix {
+        inherit ghc;
+      })
+    ] pkgs pkgs;
 }

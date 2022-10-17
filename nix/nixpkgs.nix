@@ -1,5 +1,3 @@
-{ fetchTarball ? builtins.fetchTarball }:
-
 # nixpkgs-unstable pinned on October 17th, 2022.
 # url: <https://nixos.org/channels/nixpkgs-unstable>
 fetchTarball {

@@ -6,13 +6,11 @@ let
   };
 in {
   inherit (pkgs.haskell.packages."${ghc}") 
-    fourmolu
+    haskell-language-server 
     prim-compat;
     
   inherit (pkgs) 
-    cabal-install 
     clang 
     llvm;
     
-  haskell-language-server = pkgs."haskell-language-server-9.2.2";
 }

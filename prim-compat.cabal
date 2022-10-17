@@ -19,10 +19,13 @@ extra-source-files:
   README.md
 
 tested-with:
-  GHC == 9.2.2
-  GHC == 9.2.1
+  GHC == 9.2.4
   GHC == 9.0.2
   GHC == 8.10.7
+
+source-repository head
+  type:     git
+  location: https://github.com/riz0id/prim-compat
 
 flag llvm
   Description: Compile using the LLVM backend.
@@ -62,7 +65,7 @@ common common
     ghc-options: -fllvm 
 
   build-depends:
-    , base >= 4.14.3 && < 4.17
+    , base 
 
 library
   import:             common
@@ -71,7 +74,7 @@ library
   ghc-options:        -Werror
 
   build-depends:
-    , ghc-prim >= 0.6.1 && < 0.9
+    , ghc-prim 
 
   exposed-modules:
     Data.Int.Prim.Compat
@@ -109,7 +112,3 @@ test-suite test
     Test.Word.Word8
     Test.Word.Word16
     Test.Word.Word32
-
-source-repository head
-  type:     git
-  location: https://github.com/riz0id/prim-compat
