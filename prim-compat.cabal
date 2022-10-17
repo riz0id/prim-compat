@@ -56,6 +56,8 @@ common common
     -- simplifier passes.
     -fmax-simplifier-iterations=2
 
+    -fregs-iterative
+
   if flag(llvm) 
     ghc-options: -fllvm 
 
@@ -85,7 +87,6 @@ test-suite test
     BlockArguments ViewPatterns
 
   ghc-options:
-    -O0
     -threaded
     -rtsopts
     "-with-rtsopts=-N"
