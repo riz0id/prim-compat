@@ -14,55 +14,54 @@
 -- types 'Word#', 'Word8#', 'Word16#', and 'Word32#'.
 --
 -- @since 1.0.0
-module Data.Word.Prim.Compat
-  ( -- * Word# #word#
-    Word#,
-    fromWord#,
-    toWord#,
+module Data.Word.Prim.Compat (
+  -- * Word# #word#
+  Word#,
+  fromWord#,
+  toWord#,
 
-    -- * Word8# #word8#
-    Word8#,
-    fromWord8#,
-    toWord8#,
+  -- * Word8# #word8#
+  Word8#,
+  fromWord8#,
+  toWord8#,
 
-    -- ** Conversion #word8-conversion#
-    wordToWord8#,
-    word8ToWord#,
+  -- ** Conversion #word8-conversion#
+  wordToWord8#,
+  word8ToWord#,
 
-    -- * Word16# #word16#
-    Word16#,
-    fromWord16#,
-    toWord16#,
+  -- * Word16# #word16#
+  Word16#,
+  fromWord16#,
+  toWord16#,
 
-    -- ** Conversion #word16-conversion#
-    wordToWord16#,
-    word16ToWord#,
+  -- ** Conversion #word16-conversion#
+  wordToWord16#,
+  word16ToWord#,
 
-    -- ** Unboxing
+  -- ** Unboxing
 
-    -- * Word32# #word32#
-    Word32#,
-    fromWord32#,
-    toWord32#,
+  -- * Word32# #word32#
+  Word32#,
+  fromWord32#,
+  toWord32#,
 
-    -- ** Conversion #word32-conversion#
-    wordToWord32#,
-    word32ToWord#,
+  -- ** Conversion #word32-conversion#
+  wordToWord32#,
+  word32ToWord#,
 
-    -- ** Arithmetic #word32-arithmetic#
-    plusWord32#,
-    subWord32#,
-    timesWord32#,
+  -- ** Arithmetic #word32-arithmetic#
+  plusWord32#,
+  subWord32#,
+  timesWord32#,
 
-    -- ** Comparison #word32-comparison#
-    gtWord32#,
-    geWord32#,
-    eqWord32#,
-    neWord32#,
-    ltWord32#,
-    leWord32#,
-  )
-where
+  -- ** Comparison #word32-comparison#
+  gtWord32#,
+  geWord32#,
+  eqWord32#,
+  neWord32#,
+  ltWord32#,
+  leWord32#,
+) where
 
 import GHC.Exts (Word#, Word16#, Word32#, Word8#)
 import qualified GHC.Exts as GHC
@@ -78,21 +77,20 @@ import GHC.Exts (Int#)
 
 #endif
 
-{-# RULES 
-
-"Word# -> Word -> Word#"
-  forall x . toWord# (fromWord# x) = x
-
-"Word8# -> Word8 -> Word8#"
-  forall x . toWord8# (fromWord8# x) = x
-
-"Word16# -> Word16 -> Word16#"
-  forall x . toWord16# (fromWord16# x) = x
-
-"Word32# -> Word32 -> Word32#"
-  forall x . toWord32# (fromWord32# x) = x
-
-#-}
+{-# RULES
+"Word# -> Word -> Word#" forall x.
+  toWord# (fromWord# x) =
+    x
+"Word8# -> Word8 -> Word8#" forall x.
+  toWord8# (fromWord8# x) =
+    x
+"Word16# -> Word16 -> Word16#" forall x.
+  toWord16# (fromWord16# x) =
+    x
+"Word32# -> Word32 -> Word32#" forall x.
+  toWord32# (fromWord32# x) =
+    x
+  #-}
 
 -- Word# -----------------------------------------------------------------------
 
@@ -231,10 +229,10 @@ toWord32# (W32# x) = wordToWord32# x
 -- Note [Word32 Narrowings]
 --
 -- No conversion function between 'Word#' and 'Word32#' in versions of ghc-prim
--- earlier than 0.8.0. In order to implement versions of 'fromWord32#' and 
--- 'toWord32#' that are compatible with earlier versions of ghc-prim, 
--- 'unsafeCoerce#' must be used. The conversion functions 'wordToWord32#' and 
--- 'word32ToWord#' could naively be defined as: 
+-- earlier than 0.8.0. In order to implement versions of 'fromWord32#' and
+-- 'toWord32#' that are compatible with earlier versions of ghc-prim,
+-- 'unsafeCoerce#' must be used. The conversion functions 'wordToWord32#' and
+-- 'word32ToWord#' could naively be defined as:
 --
 -- @
 -- wordToWord32# :: Word# -> Word32#
@@ -242,11 +240,11 @@ toWord32# (W32# x) = wordToWord32# x
 --
 -- word32ToWord# :: Word32# -> Word#
 -- word32ToWord# x = GHC.unsafeCoerce# x
--- @ 
+-- @
 --
--- However, doing so will result would lead to undefined behavior and 
+-- However, doing so will result would lead to undefined behavior and
 -- inconsistent 'Word#' overflow. Placing 'narrow32Word#' around 'unsafeCoerce#'
--- is the only way to ensure the value of the word is perserved through the 
+-- is the only way to ensure the value of the word is perserved through the
 -- cast.
 
 -- | Cast an 'Word#' value to an 'Word32#' value.
@@ -271,7 +269,7 @@ wordToWord32# x = GHC.unsafeCoerce# (GHC.narrow32Word# x) -- see [Word32 Narrowi
 
 -- Word32# - Arithmetic --------------------------------------------------------
 
--- | TODO 
+-- | TODO
 --
 -- @since 1.0.0
 plusWord32# :: Word32# -> Word32# -> Word32#
@@ -281,7 +279,7 @@ plusWord32# = GHC.plusWord32#
 plusWord32# a b = wordToWord32# (GHC.plusWord# (word32ToWord# a) (word32ToWord# b))
 #endif
 
--- | TODO 
+-- | TODO
 --
 -- @since 1.0.0
 subWord32# :: Word32# -> Word32# -> Word32#
@@ -291,7 +289,7 @@ subWord32# = GHC.subWord32#
 subWord32# a b = wordToWord32# (GHC.minusWord# (word32ToWord# a) (word32ToWord# b))
 #endif
 
--- | TODO 
+-- | TODO
 --
 -- @since 1.0.0
 timesWord32# :: Word32# -> Word32# -> Word32#

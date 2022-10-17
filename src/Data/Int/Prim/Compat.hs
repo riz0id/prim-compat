@@ -14,53 +14,52 @@
 -- 'Int8#', 'Int16#', and 'Int32#'.
 --
 -- @since 1.0.0
-module Data.Int.Prim.Compat
-  ( -- * Int# #int#
-    Int#,
-    fromInt#,
-    toInt#,
+module Data.Int.Prim.Compat (
+  -- * Int# #int#
+  Int#,
+  fromInt#,
+  toInt#,
 
-    -- * Int8# #int8#
-    Int8#,
-    fromInt8#,
-    toInt8#,
+  -- * Int8# #int8#
+  Int8#,
+  fromInt8#,
+  toInt8#,
 
-    -- ** Conversion #int8-conversion#
-    intToInt8#,
-    int8ToInt#,
+  -- ** Conversion #int8-conversion#
+  intToInt8#,
+  int8ToInt#,
 
-    -- * Int16# #int16#
-    Int16#,
-    fromInt16#,
-    toInt16#,
+  -- * Int16# #int16#
+  Int16#,
+  fromInt16#,
+  toInt16#,
 
-    -- ** Conversion #int16-conversion#
-    intToInt16#,
-    int16ToInt#,
+  -- ** Conversion #int16-conversion#
+  intToInt16#,
+  int16ToInt#,
 
-    -- * Int32# #int32#
-    Int32#,
-    fromInt32#,
-    toInt32#,
+  -- * Int32# #int32#
+  Int32#,
+  fromInt32#,
+  toInt32#,
 
-    -- ** Conversion #int32-conversion#
-    intToInt32#,
-    int32ToInt#,
+  -- ** Conversion #int32-conversion#
+  intToInt32#,
+  int32ToInt#,
 
-    -- ** Arithmetic #word32-arithmetic#
-    plusInt32#,
-    subInt32#,
-    timesInt32#,
+  -- ** Arithmetic #word32-arithmetic#
+  plusInt32#,
+  subInt32#,
+  timesInt32#,
 
-    -- ** Comparison #int32-comparison#
-    gtInt32#,
-    geInt32#,
-    eqInt32#,
-    neInt32#,
-    ltInt32#,
-    leInt32#,
-  )
-where
+  -- ** Comparison #int32-comparison#
+  gtInt32#,
+  geInt32#,
+  eqInt32#,
+  neInt32#,
+  ltInt32#,
+  leInt32#,
+) where
 
 import GHC.Exts (Int#, Int16#, Int32#, Int8#)
 import qualified GHC.Exts as GHC
@@ -72,21 +71,20 @@ import GHC.Exts (eqInt32#, geInt32#, gtInt32#, leInt32#, ltInt32#, neInt32#)
 
 #endif
 
-{-# RULES 
-
-"Int# -> Int -> Int#"
-  forall x . toInt# (fromInt# x) = x
-
-"Int8# -> Int8 -> Int8#"
-  forall x . toInt8# (fromInt8# x) = x
-
-"Int16# -> Int16 -> Int16#"
-  forall x . toInt16# (fromInt16# x) = x
-
-"Int32# -> Int32 -> Int32#"
-  forall x . toInt32# (fromInt32# x) = x
-
-#-}
+{-# RULES
+"Int# -> Int -> Int#" forall x.
+  toInt# (fromInt# x) =
+    x
+"Int8# -> Int8 -> Int8#" forall x.
+  toInt8# (fromInt8# x) =
+    x
+"Int16# -> Int16 -> Int16#" forall x.
+  toInt16# (fromInt16# x) =
+    x
+"Int32# -> Int32 -> Int32#" forall x.
+  toInt32# (fromInt32# x) =
+    x
+  #-}
 
 -- Int# ------------------------------------------------------------------------
 
@@ -265,7 +263,7 @@ int32ToInt# x = GHC.narrow32Int# (GHC.unsafeCoerce# x) -- see [Int32 Narrowings]
 
 -- Int32# - Arithmetic ---------------------------------------------------------
 
--- | TODO 
+-- | TODO
 --
 -- @since 1.0.0
 plusInt32# :: Int32# -> Int32# -> Int32#
@@ -275,7 +273,7 @@ plusInt32# = GHC.plusInt32#
 plusInt32# a b = intToInt32# (int32ToInt# a GHC.+# int32ToInt# b)
 #endif
 
--- | TODO 
+-- | TODO
 --
 -- @since 1.0.0
 subInt32# :: Int32# -> Int32# -> Int32#
@@ -285,7 +283,7 @@ subInt32# = GHC.plusInt32#
 subInt32# a b = intToInt32# (int32ToInt# a GHC.-# int32ToInt# b)
 #endif
 
--- | TODO 
+-- | TODO
 --
 -- @since 1.0.0
 timesInt32# :: Int32# -> Int32# -> Int32#
