@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# OPTIONS_HADDOCK show-extensions #-}
 
 -- |
@@ -65,7 +66,7 @@ import GHC.Exts (Int#, Int16#, Int32#, Int8#)
 import qualified GHC.Exts as GHC
 import GHC.Int (Int (I#), Int16 (I16#), Int32 (I32#), Int8 (I8#))
 
-#if (MIN_VERSION_ghc_prim(0,8,0))
+#if (MIN_VERSION_base(4,19,0))
 
 import GHC.Exts (eqInt32#, geInt32#, gtInt32#, leInt32#, ltInt32#, neInt32#)
 
@@ -110,7 +111,7 @@ toInt# (I# x) = x
 fromInt8# :: Int8# -> Int8
 #if (MIN_VERSION_ghc_prim(0,8,0))
 fromInt8# = I8#
-#else 
+#else
 fromInt8# x = I8# (GHC.extendInt8# x)
 #endif
 {-# INLINE [0] fromInt8# #-}
@@ -121,7 +122,7 @@ fromInt8# x = I8# (GHC.extendInt8# x)
 toInt8# :: Int8 -> Int8#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 toInt8# (I8# x) = x
-#else 
+#else
 toInt8# (I8# x) = GHC.narrowInt8# x
 #endif
 {-# INLINE [0] toInt8# #-}
@@ -135,7 +136,7 @@ intToInt8# :: Int# -> Int8#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 intToInt8# = GHC.intToInt8#
 #else
-intToInt8# = GHC.narrowInt8# 
+intToInt8# = GHC.narrowInt8#
 #endif
 
 -- | Cast an 'Int8#' value to an 'Int#' value.
@@ -145,7 +146,7 @@ int8ToInt# :: Int8# -> Int#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 int8ToInt# = GHC.int8ToInt#
 #else
-int8ToInt# = GHC.extendInt8# 
+int8ToInt# = GHC.extendInt8#
 #endif
 
 -- Int16# ----------------------------------------------------------------------
@@ -156,7 +157,7 @@ int8ToInt# = GHC.extendInt8#
 fromInt16# :: Int16# -> Int16
 #if (MIN_VERSION_ghc_prim(0,8,0))
 fromInt16# = I16#
-#else 
+#else
 fromInt16# x = I16# (GHC.extendInt16# x)
 #endif
 {-# INLINE [0] fromInt16# #-}
@@ -167,7 +168,7 @@ fromInt16# x = I16# (GHC.extendInt16# x)
 toInt16# :: Int16 -> Int16#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 toInt16# (I16# x) = x
-#else 
+#else
 toInt16# (I16# x) = GHC.narrowInt16# x
 #endif
 {-# INLINE [0] toInt16# #-}
@@ -181,7 +182,7 @@ intToInt16# :: Int# -> Int16#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 intToInt16# = GHC.intToInt16#
 #else
-intToInt16# = GHC.narrowInt16# 
+intToInt16# = GHC.narrowInt16#
 #endif
 
 -- | Cast an 'Int16#' value to an 'Int#' value.
@@ -191,7 +192,7 @@ int16ToInt# :: Int16# -> Int#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 int16ToInt# = GHC.int16ToInt#
 #else
-int16ToInt# = GHC.extendInt16# 
+int16ToInt# = GHC.extendInt16#
 #endif
 
 -- Int32# ----------------------------------------------------------------------
@@ -202,7 +203,7 @@ int16ToInt# = GHC.extendInt16#
 fromInt32# :: Int32# -> Int32
 #if (MIN_VERSION_ghc_prim(0,8,0))
 fromInt32# = I32#
-#else 
+#else
 fromInt32# x = I32# (int32ToInt# x)
 #endif
 {-# INLINE [0] fromInt32# #-}
@@ -213,7 +214,7 @@ fromInt32# x = I32# (int32ToInt# x)
 toInt32# :: Int32 -> Int32#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 toInt32# (I32# x) = x
-#else 
+#else
 toInt32# (I32# x) = intToInt32# x
 #endif
 {-# INLINE [0] toInt32# #-}
@@ -268,7 +269,7 @@ int32ToInt# x = GHC.narrow32Int# (GHC.unsafeCoerce# x) -- see [Int32 Narrowings]
 -- @since 1.0.0
 plusInt32# :: Int32# -> Int32# -> Int32#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-plusInt32# = GHC.plusInt32# 
+plusInt32# = GHC.plusInt32#
 #else
 plusInt32# a b = intToInt32# (int32ToInt# a GHC.+# int32ToInt# b)
 #endif
@@ -278,7 +279,7 @@ plusInt32# a b = intToInt32# (int32ToInt# a GHC.+# int32ToInt# b)
 -- @since 1.0.0
 subInt32# :: Int32# -> Int32# -> Int32#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-subInt32# = GHC.plusInt32# 
+subInt32# = GHC.plusInt32#
 #else
 subInt32# a b = intToInt32# (int32ToInt# a GHC.-# int32ToInt# b)
 #endif
@@ -288,14 +289,14 @@ subInt32# a b = intToInt32# (int32ToInt# a GHC.-# int32ToInt# b)
 -- @since 1.0.0
 timesInt32# :: Int32# -> Int32# -> Int32#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-timesInt32# = GHC.timesInt32# 
+timesInt32# = GHC.timesInt32#
 #else
 timesInt32# a b = intToInt32# (int32ToInt# a GHC.*# int32ToInt# b)
 #endif
 
 -- Int32# - Comparison ---------------------------------------------------------
 
-#if !(MIN_VERSION_ghc_prim(0,8,0))
+#if !(MIN_VERSION_base(4,19,0))
 
 gtInt32# :: Int32# -> Int32# -> Int#
 gtInt32# a b = (GHC.>#) (int32ToInt# a) (int32ToInt# b)

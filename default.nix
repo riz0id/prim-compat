@@ -1,4 +1,4 @@
-{ ghc ? "ghc924" }:
+{ ghc }:
 
 let
   pkgs = import nix/pkgs.nix { 
@@ -6,8 +6,10 @@ let
   };
 in {
   inherit (pkgs.haskell.packages."${ghc}") 
+    cabal-install
     haskell-language-server 
-    prim-compat;
+    prim-compat
+    stylish-haskell;
     
   inherit (pkgs) 
     clang 

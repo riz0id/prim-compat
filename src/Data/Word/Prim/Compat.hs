@@ -1,3 +1,4 @@
+{-# LANGUAGE CPP #-}
 {-# OPTIONS_HADDOCK show-extensions #-}
 
 -- |
@@ -14,66 +15,64 @@
 -- types 'Word#', 'Word8#', 'Word16#', and 'Word32#'.
 --
 -- @since 1.0.0
-module Data.Word.Prim.Compat (
-  -- * Word# #word#
-  Word#,
-  fromWord#,
-  toWord#,
+module Data.Word.Prim.Compat
+  ( -- * Word# #word#
+    Word#
+  , fromWord#
+  , toWord#
+    -- * Word8# #word8#
+  , Word8#
+  , fromWord8#
+  , toWord8#
+    -- ** Conversion #word8-conversion#
+  , wordToWord8#
+  , word8ToWord#
+    -- * Word16# #word16#
+  , Word16#
+  , fromWord16#
+  , toWord16#
+    -- ** Conversion #word16-conversion#
+  , wordToWord16#
+  , word16ToWord#
+    -- ** Unboxing
+    -- * Word32# #word32#
+  , Word32#
+  , fromWord32#
+  , toWord32#
+    -- ** Conversion #word32-conversion#
+  , wordToWord32#
+  , word32ToWord#
+    -- ** Arithmetic #word32-arithmetic#
+  , plusWord32#
+  , subWord32#
+  , timesWord32#
+    -- ** Comparison #word32-comparison#
+  , gtWord32#
+  , geWord32#
+  , eqWord32#
+  , neWord32#
+  , ltWord32#
+  , leWord32#
+  ) where
 
-  -- * Word8# #word8#
-  Word8#,
-  fromWord8#,
-  toWord8#,
+import GHC.Exts
+  ( Word#
+  , Word16#
+  , Word32#
+  , Word8#
+  , eqWord32#
+  , geWord32#
+  , gtWord32#
+  , leWord32#
+  , ltWord32#
+  , neWord32#
+  )
+import GHC.Exts qualified as GHC
+import GHC.Word (Word (..), Word16 (..), Word32 (..), Word8 (..))
 
-  -- ** Conversion #word8-conversion#
-  wordToWord8#,
-  word8ToWord#,
-
-  -- * Word16# #word16#
-  Word16#,
-  fromWord16#,
-  toWord16#,
-
-  -- ** Conversion #word16-conversion#
-  wordToWord16#,
-  word16ToWord#,
-
-  -- ** Unboxing
-
-  -- * Word32# #word32#
-  Word32#,
-  fromWord32#,
-  toWord32#,
-
-  -- ** Conversion #word32-conversion#
-  wordToWord32#,
-  word32ToWord#,
-
-  -- ** Arithmetic #word32-arithmetic#
-  plusWord32#,
-  subWord32#,
-  timesWord32#,
-
-  -- ** Comparison #word32-comparison#
-  gtWord32#,
-  geWord32#,
-  eqWord32#,
-  neWord32#,
-  ltWord32#,
-  leWord32#,
-) where
-
-import GHC.Exts (Word#, Word16#, Word32#, Word8#)
-import qualified GHC.Exts as GHC
-import GHC.Word (Word (W#), Word16 (W16#), Word32 (W32#), Word8 (W8#))
-
-#if (MIN_VERSION_ghc_prim(0,8,0))
+#if !(MIN_VERSION_base(4,19,0))
 
 import GHC.Exts (gtWord32#, geWord32#, eqWord32#, neWord32#, ltWord32#, leWord32#)
-
-#else 
-
-import GHC.Exts (Int#)
 
 #endif
 
@@ -116,7 +115,7 @@ fromWord# = W#
 fromWord8# :: Word8# -> Word8
 #if (MIN_VERSION_ghc_prim(0,8,0))
 fromWord8# = W8#
-#else 
+#else
 fromWord8# x = W8# (GHC.extendWord8# x)
 #endif
 {-# INLINE [0] toWord8# #-}
@@ -127,7 +126,7 @@ fromWord8# x = W8# (GHC.extendWord8# x)
 toWord8# :: Word8 -> Word8#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 toWord8# (W8# x) = x
-#else 
+#else
 toWord8# (W8# x) = GHC.narrowWord8# x
 #endif
 {-# INLINE [0] fromWord8# #-}
@@ -141,7 +140,7 @@ wordToWord8# :: Word# -> Word8#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 wordToWord8# = GHC.wordToWord8#
 #else
-wordToWord8# = GHC.narrowWord8# 
+wordToWord8# = GHC.narrowWord8#
 #endif
 
 -- | Cast an 'Word8#' value to an 'Word#' value.
@@ -151,7 +150,7 @@ word8ToWord# :: Word8# -> Word#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 word8ToWord# = GHC.word8ToWord#
 #else
-word8ToWord# = GHC.extendWord8# 
+word8ToWord# = GHC.extendWord8#
 #endif
 
 -- Word16# ---------------------------------------------------------------------
@@ -162,7 +161,7 @@ word8ToWord# = GHC.extendWord8#
 fromWord16# :: Word16# -> Word16
 #if (MIN_VERSION_ghc_prim(0,8,0))
 fromWord16# = W16#
-#else 
+#else
 fromWord16# x = W16# (GHC.extendWord16# x)
 #endif
 {-# INLINE [0] fromWord16# #-}
@@ -173,7 +172,7 @@ fromWord16# x = W16# (GHC.extendWord16# x)
 toWord16# :: Word16 -> Word16#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 toWord16# (W16# x) = x
-#else 
+#else
 toWord16# (W16# x) = GHC.narrowWord16# x
 #endif
 {-# INLINE [0] toWord16# #-}
@@ -187,7 +186,7 @@ wordToWord16# :: Word# -> Word16#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 wordToWord16# = GHC.wordToWord16#
 #else
-wordToWord16# = GHC.narrowWord16# 
+wordToWord16# = GHC.narrowWord16#
 #endif
 
 -- | Cast an 'Word16#' value to an 'Word#' value.
@@ -197,7 +196,7 @@ word16ToWord# :: Word16# -> Word#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 word16ToWord# = GHC.word16ToWord#
 #else
-word16ToWord# = GHC.extendWord16# 
+word16ToWord# = GHC.extendWord16#
 #endif
 
 -- Word32# ---------------------------------------------------------------------
@@ -208,7 +207,7 @@ word16ToWord# = GHC.extendWord16#
 fromWord32# :: Word32# -> Word32
 #if (MIN_VERSION_ghc_prim(0,8,0))
 fromWord32# = W32#
-#else 
+#else
 fromWord32# x = W32# (word32ToWord# x)
 #endif
 {-# INLINE [0] fromWord32# #-}
@@ -219,8 +218,8 @@ fromWord32# x = W32# (word32ToWord# x)
 toWord32# :: Word32 -> Word32#
 #if (MIN_VERSION_ghc_prim(0,8,0))
 toWord32# (W32# x) = x
-#else 
-toWord32# (W32# x) = wordToWord32# x 
+#else
+toWord32# (W32# x) = wordToWord32# x
 #endif
 {-# INLINE [0] toWord32# #-}
 
@@ -274,7 +273,7 @@ wordToWord32# x = GHC.unsafeCoerce# (GHC.narrow32Word# x) -- see [Word32 Narrowi
 -- @since 1.0.0
 plusWord32# :: Word32# -> Word32# -> Word32#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-plusWord32# = GHC.plusWord32# 
+plusWord32# = GHC.plusWord32#
 #else
 plusWord32# a b = wordToWord32# (GHC.plusWord# (word32ToWord# a) (word32ToWord# b))
 #endif
@@ -284,7 +283,7 @@ plusWord32# a b = wordToWord32# (GHC.plusWord# (word32ToWord# a) (word32ToWord# 
 -- @since 1.0.0
 subWord32# :: Word32# -> Word32# -> Word32#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-subWord32# = GHC.subWord32# 
+subWord32# = GHC.subWord32#
 #else
 subWord32# a b = wordToWord32# (GHC.minusWord# (word32ToWord# a) (word32ToWord# b))
 #endif
@@ -294,14 +293,14 @@ subWord32# a b = wordToWord32# (GHC.minusWord# (word32ToWord# a) (word32ToWord# 
 -- @since 1.0.0
 timesWord32# :: Word32# -> Word32# -> Word32#
 #if (MIN_VERSION_ghc_prim(0,8,0))
-timesWord32# = GHC.timesWord32# 
+timesWord32# = GHC.timesWord32#
 #else
 timesWord32# a b = wordToWord32# (GHC.timesWord# (word32ToWord# a) (word32ToWord# b))
 #endif
 
 -- Word32# - Comparison --------------------------------------------------------
 
-#if !(MIN_VERSION_ghc_prim(0,8,0))
+#if !(MIN_VERSION_base(4,19,0))
 
 gtWord32# :: Word32# -> Word32# -> Int#
 gtWord32# a b = GHC.gtWord# (word32ToWord# a) (word32ToWord# b)
