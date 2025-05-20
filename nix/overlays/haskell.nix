@@ -5,9 +5,9 @@ final: prev:
 let
   hsLib = final.haskell.lib.compose;
 
-  ghcVersions = ["981"];
+  ghcVersions = [ "9101" ];
 
-  defaultGHCVersion = "981";
+  defaultGHCVersion = "9101";
 
   localHsPackages = {
     # Libraries
@@ -25,7 +25,7 @@ let
 
   haskell = prev.haskell // {
     packages = prev.haskell.packages // {
-      ghc981 = prev.haskell.packages.ghc981.override {
+      ghc9101 = prev.haskell.packages.ghc9101.override {
         overrides = hfinal: hprev: (final.lib.mapAttrs (mkLocalDerivation hfinal) localHsPackages) // {
 
         };
@@ -55,8 +55,7 @@ let
             final.hlint
             final.stack
             final.newman
-          ] ++ final.lib.optionals (ghcVersion == defaultGHCVersion) [
-            haskell.packages."ghc${defaultGHCVersion}".stylish-haskell
+            final.stylish-haskell
           ];
 
           src = null;
